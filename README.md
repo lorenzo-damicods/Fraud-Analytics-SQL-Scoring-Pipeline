@@ -107,10 +107,11 @@ It:
 - inserts results into fraud.model_scores
 
 Environment variables (recommended)
+```
 export DB_HOST="localhost"
 export DB_NAME="your_database"
 export DB_USER="your_user"
-
+```
 Run the script
 python write_scores.py
 
