@@ -15,7 +15,7 @@ It complements a previous Fraud Detection (EDA + SMOTE + ML) project by focusing
 ---
 
 ## 📁 Project Structure
-"""
+```
 fraud-analytics-sql-pipeline
 │
 ├── 01_schema.sql
@@ -30,7 +30,7 @@ fraud-analytics-sql-pipeline
 ├── dataset/ # dataset not included
 ├── requirements.txt
 └── README.md
-""" 
+```
 
 ---
 
