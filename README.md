@@ -79,23 +79,28 @@ These views can be queried directly by analysts or connected to BI tools.
 ## 🚀 How to Run the Project
 
 1️⃣ Create schema and tables
+```
 psql -h localhost -U <user> -d <database> -f 01_schema.sql
-
+```
 2️⃣ Load the CSV into staging
 The dataset is not included due to size and licensing constraints.
+```
 \copy fraud.stg_transactions
 FROM 'dataset/creditcard_enhanced_UAE_FINAL.csv'
 CSV HEADER;
-
+```
 3️⃣ Populate dimensions and fact table
+```
 psql -h localhost -U <user> -d <database> -f 02_load.sql
-
+```
 4️⃣ Create analytical views
+```
 psql -h localhost -U <user> -d <database> -f 03_views.sql
-
+```
 5️⃣ Create scoring bridge view
+```
 psql -h localhost -U <user> -d <database> -f 04_scoring_bridge.sql
-
+```
 ## Python ML Scoring Pipeline
 
 The script write_scores.py simulates the ingestion of model predictions into the database.
@@ -113,8 +118,9 @@ export DB_NAME="your_database"
 export DB_USER="your_user"
 ```
 Run the script
+```
 python write_scores.py
-
+```
 Credentials are intentionally not hardcoded and must be provided locally (e.g. via .pgpass or environment variables).
 
 🔍 SQL Exploration:
@@ -126,9 +132,10 @@ Credentials are intentionally not hardcoded and must be provided locally (e.g. v
 - investigation queue
 
 ## Requirements
+```
 pandas
 psycopg2-binary
-
+```
 
 🎯 Project Purpose
 
