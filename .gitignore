@@ -1,2 +1,21 @@
-dataset/
-    .gitkeep
+# Ignore virtual environments
+venv/
+.env/
+*.env
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore Jupyter checkpoints (if any notebooks get added)
+.ipynb_checkpoints/
+
+# Ignore dataset folder content (CSV not included)
+dataset/*
+!dataset/.gitkeep
+
+# macOS garbage
+.DS_Store
+
+# VSCode settings
+.vscode/
