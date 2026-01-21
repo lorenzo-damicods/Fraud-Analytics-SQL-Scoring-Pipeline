@@ -1,7 +1,12 @@
 # Fraud Analytics SQL & Scoring Pipeline  
+
+> **Short summary (5 seconds):**  
+> End-to-end SQL pipeline for fraud analytics with PostgreSQL, including staging, dimensional modeling, analytical views, and Python-based ML scoring ingestion.
+
 **PostgreSQL • SQL Data Modeling • Analytical Views • Python ML Scoring**
 
-Production-style SQL analytics pipeline for fraud monitoring with PostgreSQL and Python-based ML scoring.
+
+## Production-style SQL analytics pipeline for fraud monitoring with PostgreSQL and Python-based ML scoring.
 
 This project demonstrates how a credit card fraud dataset can be transformed into a **realistic fraud analytics and monitoring system**, combining SQL data modeling, analytical views, and Python-based model scoring.
 
