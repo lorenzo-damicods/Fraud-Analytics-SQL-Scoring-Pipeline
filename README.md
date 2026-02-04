@@ -52,7 +52,7 @@ If you just want to see the final results without running the pipeline, check `a
 - `assets/investigation_queue_public.csv` — aggregated investigation queue (high-impact segments)
 - `assets/daily_monitoring_public.csv` — daily monitoring KPIs (one row per date)
 
-These CSVs are sanitized sample exports generated from the final reporting SQL views; they contain no direct identifiers and are provided for demo purposes.
+These files are **sanitized sample exports** generated from the final reporting SQL views (e.g., `fraud.v_expected_loss`, `fraud.v_daily_monitoring`, `fraud.v_investigation_queue`), they contain no direct identifiers and are provided for demo purposes.
 
 ---
 ## 🗂️ Data Model Overview
