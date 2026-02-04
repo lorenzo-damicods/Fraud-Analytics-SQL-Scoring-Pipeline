@@ -52,13 +52,10 @@ If you just want to see the final results without running the pipeline, check `a
 - `assets/investigation_queue_public.csv` — aggregated investigation queue (high-impact segments)
 - `assets/daily_monitoring_public.csv` — daily monitoring KPIs (one row per date)
 
-These files are **sanitized exports** generated from the final SQL views.
+These CSVs are sanitized sample exports generated from the final reporting SQL views; they contain no direct identifiers and are provided for demo purposes.
 
 ---
 ## 🗂️ Data Model Overview
-The database follows a warehouse-style analytical design.
-## 🗂️ Data Model Overview
-
 The database follows a warehouse-style analytical design.
 
 ### Staging
