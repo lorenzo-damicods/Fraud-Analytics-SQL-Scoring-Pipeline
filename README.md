@@ -1,137 +1,145 @@
-# Fraud Analytics SQL & Scoring Pipeline  
+# Fraud Analytics — SQL & Scoring Pipeline (PostgreSQL)
 
 > **Short summary (5 seconds):**  
-> End-to-end SQL pipeline for fraud analytics with PostgreSQL, including staging, dimensional modeling, analytical views, and Python-based ML scoring ingestion.
+> Production-style fraud analytics pipeline in PostgreSQL: staging → dimensional modeling → analytical views, plus Python-based ML scoring ingestion and demo-ready outputs.
 
-**PostgreSQL • SQL Data Modeling • Analytical Views • Python ML Scoring**
+**PostgreSQL • SQL Data Modeling • Analytical Views • Python Scoring Ingestion**
 
+---
 
-## Production-style SQL analytics pipeline for fraud monitoring with PostgreSQL and Python-based ML scoring.
+## Overview
 
-This project demonstrates how a credit card fraud dataset can be transformed into a **realistic fraud analytics and monitoring system**, combining SQL data modeling, analytical views, and Python-based model scoring.
+This repository shows how a credit-card fraud dataset can be transformed into a **fraud monitoring and reporting layer** using:
+- a warehouse-style data model (staging + dimensions + fact),
+- BI-ready analytical SQL views (monitoring, risk profiling, investigation queue),
+- a Python script that simulates **model score ingestion** into PostgreSQL.
 
-It complements a previous Fraud Detection (EDA + SMOTE + ML) project by focusing on **data engineering and operationalisation**, rather than model training.
+It complements a previous Fraud Detection project by focusing on **data engineering and operationalization**, rather than model training.
 
 ---
 
 ## 📁 Project Structure
+
 ```
-fraud-analytics-sql-pipeline
+Fraud-Analytics-SQL-Scoring-Pipeline/
 │
-├── 01_schema.sql
-├── 02_load.sql
-├── 03_views.sql
-├── 04_scoring_bridge.sql
+├── assets/
+│ ├── expected_loss_top100_public.csv
+│ ├── investigation_queue_public.csv
+│ ├── daily_monitoring_public.csv
+│ └── .keep
 │
-├── write_scores.py
 ├── queries/
 │ └── exploration.sql
 │
-├── dataset/ # dataset not included
+├── sql/
+│ ├── 01_schema.sql
+│ ├── 02_load.sql
+│ ├── 03_views.sql
+│ └── 04_scoring_bridge.sql
+│
+├── write_scores.py
 ├── requirements.txt
 └── README.md
 ```
 
 ---
+## ✅ Demo Outputs (no dataset required)
 
+If you just want to see the final results without running the pipeline, check `assets/`:
+
+- `assets/expected_loss_top100_public.csv` — top 100 transactions ranked by expected loss (AED)
+- `assets/investigation_queue_public.csv` — aggregated investigation queue (high-impact segments)
+- `assets/daily_monitoring_public.csv` — daily monitoring KPIs (one row per date)
+
+These files are **sanitized exports** generated from the final SQL views.
+
+---
+## 🗂️ Data Model Overview
+The database follows a warehouse-style analytical design.
 ## 🗂️ Data Model Overview
 
-The database follows a **warehouse-style analytical design**.
+The database follows a warehouse-style analytical design.
 
 ### Staging
-- `stg_transactions`  
+- `fraud.stg_transactions`  
   Raw ingestion of the enhanced fraud dataset.
 
 ### Dimensions
-- `dim_geo_area`
-- `dim_customer`
+- `fraud.dim_geo_area`
+- `fraud.dim_customer`
 
 ### Fact table
-- `fact_transactions` (partitioned by `transaction_date`)  
-  Contains transaction features, labels, and engineered business metrics such as:
+- `fraud.fact_transactions` (partitioned by `transaction_date`)  
+  Contains transaction features, labels, and engineered monitoring metrics, e.g.:
   - `is_fraud`
   - `cost_if_fraud`
   - `flag_over_50k`
 
 ### Scoring & monitoring tables
-- `model_scores`
-- `anomaly_scores`
-- `alerts`
-
----
+- `fraud.model_scores`
+- `fraud.anomaly_scores`
+- `fraud.alerts`
 
 ## 📊 Analytical Views
 
-The project exposes SQL views designed for **fraud monitoring and risk analysis**:
+The reporting layer is exposed through BI-ready views:
 
-- `v_fraud_rate_by_geo`
-- `v_fraud_rate_by_controls`
-- `v_daily_monitoring`
-- `v_customer_risk_profile`
-- `v_latest_model_score`
-- `v_expected_loss`
-- `v_investigation_queue`
+- `fraud.v_fraud_rate_by_geo`
+- `fraud.v_fraud_rate_by_controls`
+- `fraud.v_daily_monitoring`
+- `fraud.v_customer_risk_profile`
+- `fraud.v_latest_model_score`
+- `fraud.v_expected_loss`
+- `fraud.v_investigation_queue`
 
-These views can be queried directly by analysts or connected to BI tools.
+The file `queries/exploration.sql` contains example queries to explore these outputs.
 
 ---
 
-## 🚀 How to Run the Project
+## 🚀 How to Run Locally (high level)
+
+> **Note:** The raw dataset is **not included** in this repository due to size/licensing constraints.  
+> The pipeline expects a CSV compatible with the schema defined in `sql/01_schema.sql`.
+
 
 1️⃣ Create schema and tables
 ```
-psql -h localhost -U <user> -d <database> -f 01_schema.sql
+psql -h localhost -U <user> -d <database> -f sql/01_schema.sql
 ```
-2️⃣ Load the CSV into staging
-The dataset is not included due to size and licensing constraints.
+2️⃣ Load your CSV into staging
+Replace the path with the location of your local CSV file (the dataset is not included in this repo).
 ```
 \copy fraud.stg_transactions
 FROM 'dataset/creditcard_enhanced_UAE_FINAL.csv'
 CSV HEADER;
+
 ```
 3️⃣ Populate dimensions and fact table
 ```
-psql -h localhost -U <user> -d <database> -f 02_load.sql
+psql -h localhost -U <user> -d <database> -f sql/02_load.sql
 ```
-4️⃣ Create analytical views
+4️⃣ Create scoring bridge view
 ```
-psql -h localhost -U <user> -d <database> -f 03_views.sql
+psql -h localhost -U <user> -d <database> -f sql/04_scoring_bridge.sql
 ```
-5️⃣ Create scoring bridge view
-```
-psql -h localhost -U <user> -d <database> -f 04_scoring_bridge.sql
-```
-## Python ML Scoring Pipeline
+5️⃣ Ingest model scores (Python)
 
-The script write_scores.py simulates the ingestion of model predictions into the database.
-
-It:
-- loads the dataset
-- assigns a placeholder fraud risk score (mock output)
-- matches transactions using a scoring bridge view
-- inserts results into fraud.model_scores
-
-Environment variables (recommended)
 ```
-export DB_HOST="localhost"
-export DB_NAME="your_database"
-export DB_USER="your_user"
-```
-Run the script
-```
-python write_scores.py
-```
-Credentials are intentionally not hardcoded and must be provided locally (e.g. via .pgpass or environment variables).
+python3 write_scores.py
 
-🔍 SQL Exploration:
-- The file queries/exploration.sql contains example queries to explore:
-- fraud rates by geography
-- fraud rates by security controls (3DS, tokenization)
-- daily fraud monitoring
-- expected loss ranking
-- investigation queue
+```
+6️⃣ Create analytical views
 
-## Requirements
+```
+psql -h localhost -U <user> -d <database> -f sql/03_views.sql
+```
+7️⃣ Run demo queries (optional)
+```
+psql -h localhost -U <user> -d <database> -f queries/exploration.sql
+```
+📦 Requirements
+
 ```
 pandas
 psycopg2-binary
@@ -140,12 +148,10 @@ psycopg2-binary
 🎯 Project Purpose
 
 This project demonstrates my ability to:
-- design production-style SQL data models
-- build fraud monitoring logic using pure SQL
-- integrate Python-based ML scoring into a database
-- structure a realistic, maintainable analytics pipeline
-
-It is intended for Data Science, Fraud Analytics, and ML Engineering roles where SQL, data modeling, and ML operationalisation are required.
+- design production-style SQL data models (dimensional modeling + partitioned fact table),
+- build a monitoring/reporting layer using analytical SQL views,
+- operationalize ML outputs by ingesting risk scores into PostgreSQL,
+- structure a maintainable, audit-friendly analytics pipeline.
 
 Lorenzo D’Amico
 Data Science Intern
