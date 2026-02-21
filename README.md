@@ -60,7 +60,7 @@ If you just want to see the final results without running the pipeline, check `a
 
 These files are **sanitized sample exports** generated from the final reporting SQL views (e.g., `fraud.v_expected_loss`, `fraud.v_daily_monitoring`, `fraud.v_investigation_queue`), they contain no direct identifiers and are provided for demo purposes.
 
-## 📈 Charts (Interview-ready)
+## 📈 Charts
 
 The repo also includes 4 presentation-ready charts generated from the reporting outputs:
 
