@@ -151,6 +151,7 @@ python3 write_scores.py
 ```
 6️⃣ Create analytical views
 > Note: views can be created before or after score ingestion; they will reflect newly ingested scores.
+
 ```
 psql -h localhost -U <user> -d <database> -f sql/03_views.sql
 ```
