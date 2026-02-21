@@ -129,12 +129,14 @@ psql -h localhost -U <user> -d <database> -f sql/01_schema.sql
 ```
 2️⃣ Load your CSV into staging
 Replace the path with the location of your local CSV file (the dataset is not included in this repo).
+> Note: `\copy` is a `psql` meta-command (run it inside `psql`), or use `psql -c "\copy ..."` from the shell.
+
 ```
 \copy fraud.stg_transactions
 FROM 'dataset/creditcard_enhanced_UAE_FINAL.csv'
 CSV HEADER;
-
 ```
+
 3️⃣ Populate dimensions and fact table
 ```
 psql -h localhost -U <user> -d <database> -f sql/02_load.sql
