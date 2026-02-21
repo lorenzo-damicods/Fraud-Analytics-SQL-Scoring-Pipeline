@@ -24,19 +24,25 @@ It complements a previous Fraud Detection project by focusing on **data engineer
 Fraud-Analytics-SQL-Scoring-Pipeline/
 │
 ├── assets/
-│ ├── expected_loss_top100_public.csv
-│ ├── investigation_queue_public.csv
-│ ├── daily_monitoring_public.csv
-│ └── .keep
+│   ├── daily_monitoring_public.csv
+│   ├── investigation_queue_public.csv
+│   ├── expected_loss_top100_public.csv
+│   ├── make_charts.py
+│   ├── charts/
+│   │   ├── 01_fraud_rate_over_time.png
+│   │   ├── 02_expected_loss_distribution.png
+│   │   ├── 03_top_segments_expected_loss.png
+│   │   └── 04_top20_expected_loss.png
+│   └── .keep
 │
 ├── queries/
-│ └── exploration.sql
+│   └── exploration.sql
 │
 ├── sql/
-│ ├── 01_schema.sql
-│ ├── 02_load.sql
-│ ├── 03_views.sql
-│ └── 04_scoring_bridge.sql
+│   ├── 01_schema.sql
+│   ├── 02_load.sql
+│   ├── 03_views.sql
+│   └── 04_scoring_bridge.sql
 │
 ├── write_scores.py
 ├── requirements.txt
