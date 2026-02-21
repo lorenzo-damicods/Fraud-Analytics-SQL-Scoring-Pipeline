@@ -60,6 +60,23 @@ If you just want to see the final results without running the pipeline, check `a
 
 These files are **sanitized sample exports** generated from the final reporting SQL views (e.g., `fraud.v_expected_loss`, `fraud.v_daily_monitoring`, `fraud.v_investigation_queue`), they contain no direct identifiers and are provided for demo purposes.
 
+## 📈 Charts (Interview-ready)
+
+The repo also includes 4 presentation-ready charts generated from the reporting outputs:
+
+- Fraud rate (%) over time (daily monitoring KPI)
+- Expected loss distribution (log count)
+- Top segments by total expected loss (geo + type + controls: 3DS/tokenization)
+- Top 20 transactions by expected loss (triage list)
+
+Charts are available under:
+`assets/charts/`
+
+To regenerate them locally (after exporting full CSVs from the DB), run:
+```
+python3 assets/make_charts.py
+```
+
 ---
 ## 🗂️ Data Model Overview
 The database follows a warehouse-style analytical design.
@@ -127,7 +144,7 @@ psql -h localhost -U <user> -d <database> -f sql/02_load.sql
 psql -h localhost -U <user> -d <database> -f sql/04_scoring_bridge.sql
 ```
 5️⃣ Ingest model scores (Python)
-
+> Note: `write_scores.py` uses a demo score to illustrate operational score ingestion into PostgreSQL; any real model output can be plugged in.
 ```
 python3 write_scores.py
 
