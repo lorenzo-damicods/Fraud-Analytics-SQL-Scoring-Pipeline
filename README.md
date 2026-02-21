@@ -159,14 +159,14 @@ psql -h localhost -U <user> -d <database> -f sql/03_views.sql
 ```
 psql -h localhost -U <user> -d <database> -f queries/exploration.sql
 ```
-📦 Requirements
+## 📦 Requirements
 
 ```
 pandas
 psycopg2-binary
 ```
 
-🎯 Project Purpose
+## 🎯 Project Purpose
 
 This project demonstrates my ability to:
 - design production-style SQL data models (dimensional modeling + partitioned fact table),
